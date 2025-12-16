@@ -1,4 +1,4 @@
-import Status from "./status.ts";
+import { Status } from "./status.ts";
 
 class Different {
     file: string;
@@ -10,7 +10,7 @@ class Different {
         this.status = status;
         this.content = content;
     }
-    
+
 }
 
 export default Different;

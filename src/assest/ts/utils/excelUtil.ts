@@ -1,6 +1,6 @@
-import { Worksheet } from "exceljs";
+import ExcelJS from "exceljs";
 
-export function autoResizeWidth(worksheet: Worksheet, minWidth: number = 10) {
+export function autoResizeWidth(worksheet: ExcelJS.Worksheet, minWidth: number = 10) {
     worksheet.columns.forEach(column => {
         if (!column.eachCell) return;
 

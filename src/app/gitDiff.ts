@@ -1,12 +1,12 @@
 import process from 'process';
 import childProcess from 'child_process';
 import fs from 'fs';
-import ExcelJS, { Fill } from 'exceljs';
+import ExcelJS from 'exceljs';
 import { initDist } from '../assest/ts/utils/distUtil.ts';
 import { autoResizeWidth } from '../assest/ts/utils/excelUtil.ts';
 import { convertPatchWithRaw } from '../assest/ts/utils/gitDiffUtil.ts';
 import Different from '../assest/ts/model/gitDiff/different.ts';
-import Status from '../assest/ts/model/gitDiff/status.ts';
+import { Status, statusToString } from '../assest/ts/model/gitDiff/status.ts';
 import path from 'path';
 import { CeateDiffFileOption } from '../assest/ts/model/gitDiff/gitDiff.ts';
 
@@ -81,7 +81,7 @@ async function createDiffExcel(distDir: string, repoName: string, differents: Ar
     row1.font = {
         bold: true
     };
-    const fill: Fill = {
+    const fill: ExcelJS.Fill = {
         type: 'pattern',
         pattern: 'solid',
         fgColor: { argb: 'faecc6' }
@@ -91,7 +91,7 @@ async function createDiffExcel(distDir: string, repoName: string, differents: Ar
     differents.forEach(different => {
         const row = sheet.addRow({
             file: different.file,
-            status: Status.toString(different.status)
+            status: statusToString(different.status)
         })
         if (different.status === Status.DELETE) {
             row.getCell(2).fill = {
