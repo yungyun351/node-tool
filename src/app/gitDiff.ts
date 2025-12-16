@@ -10,7 +10,7 @@ import Status from '../assest/ts/model/gitDiff/status.ts';
 import path from 'path';
 import { CeateDiffFileOption } from '../assest/ts/model/gitDiff/gitDiff.ts';
 
-export async function createDiffFile(option: CeateDiffFileOption): Promise<void> {
+export default async function createGitDiff(option: CeateDiffFileOption): Promise<void> {
     const distDir = initDist(true);
     const repoName = path.basename(option.repoDir);
 
@@ -24,7 +24,7 @@ export async function createDiffFile(option: CeateDiffFileOption): Promise<void>
     createDiffProject(distDir, option.repoDir, repoName, differents);
 }
 
-export function getDifferents(distDir: string, option: CeateDiffFileOption): Array<Different> | undefined {
+function getDifferents(distDir: string, option: CeateDiffFileOption): Array<Different> | undefined {
     const DIS_PREFIX = "DIS_PREFIX/";
     const FILE_DIFF = 'diff.txt';
     const ABSTRACT_PATH_FILE_DIFF = `${distDir}/${FILE_DIFF}`;
@@ -46,7 +46,7 @@ export function getDifferents(distDir: string, option: CeateDiffFileOption): Arr
 }
 
 
-export function createModifyFile(distDir: string, differents: Array<Different>): void {
+function createModifyFile(distDir: string, differents: Array<Different>): void {
     const dir = `${distDir}/modify`;
     try {
         fs.mkdirSync(dir);
@@ -66,7 +66,7 @@ export function createModifyFile(distDir: string, differents: Array<Different>):
     });
 }
 
-export async function createDiffExcel(distDir: string, repoName: string, differents: Array<Different>): Promise<void> {
+async function createDiffExcel(distDir: string, repoName: string, differents: Array<Different>): Promise<void> {
     const workbook = new ExcelJS.Workbook();
     const sheet = workbook.addWorksheet('My Sheet');
     sheet.columns = [
@@ -108,7 +108,7 @@ export async function createDiffExcel(distDir: string, repoName: string, differe
     await workbook.xlsx.writeFile(`${distDir}/diff_${repoName}.xlsx`);
 }
 
-export function createDiffProject(distDir: string, repoDir: string, repoName: string, differents: Array<Different>) {
+function createDiffProject(distDir: string, repoDir: string, repoName: string, differents: Array<Different>) {
     // 在dist產生專案目錄
     const dir = `${distDir}/project/${repoName}`;
     try {
